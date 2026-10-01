@@ -9,8 +9,11 @@ import {
   GlobeIcon,
   InstagramIcon,
 } from "@/components/ContactIcons";
+import { site, addressLines } from "@/config/site";
 
-export const metadata: Metadata = { title: "Contact — Voussoir" };
+const { contact } = site;
+
+export const metadata: Metadata = { title: "Contact" };
 
 export default function ContactPage() {
   return (
@@ -33,9 +36,9 @@ export default function ContactPage() {
               <dd className="flex gap-2 text-ink-soft">
                 <PinIcon />
                 <span>
-                  505–507, Tower C, Urbtech Trade Centre,
+                  {addressLines[0]}
                   <br />
-                  Sector 132, Noida, Uttar Pradesh, 201304
+                  {addressLines[1]}
                 </span>
               </dd>
             </div>
@@ -43,8 +46,8 @@ export default function ContactPage() {
               <dt className="text-sm font-medium text-ink-faint mb-1">Phone</dt>
               <dd className="flex items-center gap-2">
                 <PhoneIcon />
-                <a href="tel:+919319688233" className="link-sweep tap hover:text-accent">
-                  +91 93196 88233
+                <a href={`tel:${contact.phone.e164}`} className="link-sweep tap hover:text-accent">
+                  {contact.phone.display}
                 </a>
               </dd>
             </div>
@@ -52,8 +55,8 @@ export default function ContactPage() {
               <dt className="text-sm font-medium text-ink-faint mb-1">Email</dt>
               <dd className="flex items-center gap-2">
                 <MailIcon />
-                <a href="mailto:info@voussoir.in" className="link-sweep tap hover:text-accent">
-                  info@voussoir.in
+                <a href={`mailto:${contact.email}`} className="link-sweep tap hover:text-accent">
+                  {contact.email}
                 </a>
               </dd>
             </div>
@@ -80,12 +83,12 @@ export default function ContactPage() {
               <dd className="flex items-center gap-2">
                 <InstagramIcon />
                 <a
-                  href="https://www.instagram.com/voussoir.design"
+                  href={contact.instagram.url}
                   className="link-sweep tap hover:text-accent"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  @voussoir.design
+                  {contact.instagram.handle}
                 </a>
               </dd>
             </div>

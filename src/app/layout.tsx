@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RevealObserver from "@/components/RevealObserver";
+import { site } from "@/config/site";
 
 // Serif — headings and body copy; italic only for occasional emphasis.
 // Crimson Pro at light weight as a free stand-in for Plantin Light (the
@@ -28,9 +29,16 @@ const hankenGrotesk = Hanken_Grotesk({
 const revealInitScript = `try{if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js-reveal")}catch(e){}`;
 
 export const metadata: Metadata = {
-  title: "Voussoir — Architecture · Interior · Design",
+  metadataBase: new URL(site.siteUrl),
+  title: {
+    template: `%s | ${site.name}`,
+    default: `${site.name} | Architecture & Interior Design, Noida`,
+  },
   description:
-    "Voussoir is a design practice creating considered spaces through form, material and detail. Built on balance. Defined by intent.",
+    "Architecture and interior design practice in Noida, creating considered spaces through form, material and detail. Built on balance. Defined by intent.",
+  applicationName: site.name,
+  // Stop mobile Safari auto-linking phone numbers; the real ones are explicit links.
+  formatDetection: { telephone: false },
 };
 
 export default function RootLayout({
@@ -40,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en-IN"
       className={`${crimsonPro.variable} ${hankenGrotesk.variable}`}
       // The inline script adds `js-reveal` to this element before hydration.
       suppressHydrationWarning

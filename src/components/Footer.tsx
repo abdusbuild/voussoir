@@ -6,6 +6,9 @@ import { projects } from "@/data/projects";
 import { PinIcon, PhoneIcon, MailIcon, InstagramIcon } from "./ContactIcons";
 import ArrowIcon from "./ArrowIcon";
 import FooterAccordion from "./FooterAccordion";
+import { site, addressLines } from "@/config/site";
+
+const { contact } = site;
 
 const recentProjects = projects.slice(0, 4);
 
@@ -76,32 +79,32 @@ export default function Footer() {
               <div className="flex gap-2">
                 <PinIcon />
                 <p>
-                  505–507, Tower C, Urbtech Trade Centre,
+                  {addressLines[0]}
                   <br />
-                  Sector 132, Noida, Uttar Pradesh, 201304
+                  {addressLines[1]}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <PhoneIcon />
-                <a href="tel:+919319688233" className="link-sweep tap text-base sm:text-[0.9375rem] hover:text-accent">
-                  +91 93196 88233
+                <a href={`tel:${contact.phone.e164}`} className="link-sweep tap text-base sm:text-[0.9375rem] hover:text-accent">
+                  {contact.phone.display}
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <MailIcon />
-                <a href="mailto:info@voussoir.in" className="link-sweep tap text-base sm:text-[0.9375rem] hover:text-accent">
-                  info@voussoir.in
+                <a href={`mailto:${contact.email}`} className="link-sweep tap text-base sm:text-[0.9375rem] hover:text-accent">
+                  {contact.email}
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <InstagramIcon />
                 <a
-                  href="https://www.instagram.com/voussoir.design"
+                  href={contact.instagram.url}
                   className="link-sweep tap text-base sm:text-[0.9375rem] hover:text-accent"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  @voussoir.design
+                  {contact.instagram.handle}
                 </a>
               </div>
             </address>
@@ -111,7 +114,7 @@ export default function Footer() {
         <div className="rule mb-6" />
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-sans text-sm text-ink-faint">
-          <p>© {new Date().getFullYear()} Voussoir. All Rights Reserved.</p>
+          <p>© {new Date().getFullYear()} {site.name}. All Rights Reserved.</p>
           <nav aria-label="Legal">
             <ul className="flex flex-wrap gap-x-6 gap-y-2">
               {legalLinks.map((link) => (

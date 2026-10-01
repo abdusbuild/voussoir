@@ -5,7 +5,7 @@ import ProcessExplorer from "@/components/ProcessExplorer";
 import { approach, concept, disciplines } from "@/data/disciplines";
 import { webpSize } from "@/lib/gallery";
 
-export const metadata: Metadata = { title: "Practice — Voussoir" };
+export const metadata: Metadata = { title: "Practice" };
 
 export default function PracticePage() {
   return (

@@ -19,7 +19,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  return { title: project ? `${project.title} — Voussoir` : "Voussoir" };
+  return { title: project ? project.title : "Project not found" };
 }
 
 // *phrase* → the phrase in the accent colour.

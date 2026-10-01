@@ -4,7 +4,7 @@ import ArchFrame from "@/components/ArchFrame";
 import { team } from "@/data/team";
 import { values } from "@/data/values";
 
-export const metadata: Metadata = { title: "Studio — Voussoir" };
+export const metadata: Metadata = { title: "Studio" };
 
 export default function StudioPage() {
   return (
