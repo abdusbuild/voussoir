@@ -1,0 +1,30 @@
+/* Project gallery lightbox (yet-another-react-lightbox), loaded with its chunk. */
+.voussoir-lightbox {
+  --yarl__color_backdrop: rgba(20, 17, 14, 0.96);
+  --yarl__color_button: rgba(243, 239, 230, 0.8);
+  --yarl__color_button_active: #f3efe6;
+  --yarl__color_button_disabled: rgba(243, 239, 230, 0.3);
+  /* Soft warm shadow keeps the cream controls legible over a zoomed-in light image. */
+  --yarl__button_filter: drop-shadow(0 0 3px rgba(20, 17, 14, 0.7));
+  --yarl__counter_filter: drop-shadow(0 0 3px rgba(20, 17, 14, 0.7));
+  --yarl__slide_icon_loading_color: rgba(243, 239, 230, 0.6);
+  /* 28px icon + 8px padding each side = 44px tap target. */
+  --yarl__icon_size: 28px;
+}
+
+/* Images sit inside a 92vw × 88vh box, contained, never cropped. */
+.voussoir-lightbox .yarl__slide {
+  padding: 6vh 4vw;
+}
+
+.voussoir-lightbox .yarl__button:focus-visible {
+  outline: 1px solid #f3efe6;
+  outline-offset: -4px;
+}
+
+.voussoir-lightbox .yarl__counter {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
