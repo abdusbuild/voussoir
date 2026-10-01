@@ -1,0 +1,300 @@
+@import "tailwindcss";
+
+:root {
+  --color-paper: #f3efe6;
+  --color-paper-soft: #ede7da;
+  --color-paper-deep: #e6ded0;
+  --color-ink: #201c18;
+  --color-ink-soft: #55504a;
+  --color-ink-faint: #8a837a;
+  --color-accent: #97321f;
+  --color-accent-deep: #7a2716;
+  --color-line: rgba(32, 28, 24, 0.18);
+  --color-line-soft: rgba(32, 28, 24, 0.1);
+
+  /*
+   * --font-serif (Crimson Pro) and --font-sans (Hanken Grotesk) are set by
+   * next/font/google in src/app/layout.tsx via the `variable` option on the
+   * <html> element — not declared here.
+   */
+}
+
+@theme inline {
+  --color-paper: var(--color-paper);
+  --color-paper-soft: var(--color-paper-soft);
+  --color-paper-deep: var(--color-paper-deep);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ink-faint: var(--color-ink-faint);
+  --color-accent: var(--color-accent);
+  --color-accent-deep: var(--color-accent-deep);
+  --color-line: var(--color-line);
+  --color-line-soft: var(--color-line-soft);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+}
+
+/* Layered so border-* colour utilities still win over the default. */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Sticky header height — sizes the header bar and offsets in-page anchors. */
+:root {
+  --header-h: 3.5rem;
+}
+
+@media (width >= 48rem) {
+  :root {
+    --header-h: 4rem;
+  }
+}
+
+/* Anchor targets land a little below the sticky header. */
+@utility scroll-mt-header {
+  scroll-margin-top: calc(var(--header-h) + 2rem);
+}
+
+@utility scroll-mt-header-tight {
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  /* Crimson Pro runs small, so body copy sits a step above 1rem. */
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* Phones: body copy a further step up, since Crimson Pro reads small on
+   narrow screens. */
+@media (width < 40rem) {
+  body {
+    font-size: 1.25rem;
+  }
+}
+
+/* Subtle procedural paper grain — a single tiny SVG noise tile, not a scanned
+   texture image. Applied once to the page background only, never on cards,
+   buttons, or text-bearing surfaces, so contrast never suffers. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.13  0 0 0 0 0.11  0 0 0 0 0.09  0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+#__next-root,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Global type scale. Lives in the base layer so a utility class on a
+   specific heading can still override it where genuinely needed. */
+@layer base {
+  /* Serif for reading, sans for interface — as on heatherwick.com. */
+  nav,
+  button,
+  input,
+  textarea,
+  select,
+  label,
+  dt,
+  .btn-morph {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 4vw + 1rem, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 2.5vw + 1rem, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  /* Weight 300 breaks up on small screens. */
+  @media (width < 40rem) {
+    h1,
+    h2,
+    h3 {
+      font-weight: 400;
+    }
+  }
+}
+
+.rule {
+  height: 1px;
+  background-color: var(--color-line);
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-paper);
+}
+
+/* Corner-morph hover — a sharp-cornered surface grows one soft, oversized
+   corner on hover. No color changes here; layer this alongside whatever
+   color/background hover utilities are already present. */
+.btn-morph {
+  transition: border-radius 0.35s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-morph:hover {
+  border-top-left-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+}
+
+/* Tap target — on phones, pads a link or control vertically to at least
+   44px without touching its font size. --tap-pad is also read by
+   .link-sweep so its underline stays under the text, not the padding.
+   Layered so a display or padding utility on the element still wins. */
+@layer components {
+  @media (width < 40rem) {
+    .tap {
+      --tap-pad: max(0px, calc((2.75rem - 1lh) / 2));
+      display: inline-block;
+      padding-block: var(--tap-pad);
+      /* Backstop for sub-pixel rounding of 1lh. */
+      min-height: 2.75rem;
+    }
+  }
+}
+
+/* Sweep underline hover — a hairline rule grows in from the left under the
+   text, rather than the browser's instant text-decoration underline. Uses
+   currentColor so it always matches whatever hover color is already set. */
+.link-sweep {
+  position: relative;
+  display: inline-block;
+}
+
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--tap-pad, 0px) - 0.15em);
+  width: 0;
+  height: 1.5px;
+  background-color: currentColor;
+  transition: width 0.3s ease-in-out;
+}
+
+.link-sweep:hover::after {
+  width: 100%;
+}
+/* Edge fade — for rendered illustrations that carry their own paper tone
+   (not white, so multiply would darken them). The image's edges dissolve
+   into the page instead of ending in a hard rectangle. */
+.edge-fade {
+  mask-image:
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
+    linear-gradient(to bottom, transparent, #000 10%, #000 88%, transparent);
+  mask-composite: intersect;
+}
+
+/* Scroll reveal — tiles and cards fade up as they enter the viewport. The
+   states are set by RevealObserver; html.js-reveal is added before paint only
+   when JS and IntersectionObserver are available. Transform and opacity only,
+   so the element keeps its space while hidden. */
+@media (prefers-reduced-motion: no-preference) {
+  .js-reveal [data-reveal="hidden"] {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .js-reveal [data-reveal="in"] {
+    transition:
+      opacity 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+}
+
+/* FAQ disclosure — hides the native triangle in every browser and draws a
+   "+" from two 1.5px lines that turns to "×" when the <details> is open. */
+.faq-summary::-webkit-details-marker,
+.faq-summary::marker {
+  display: none;
+  content: "";
+}
+
+.faq-marker {
+  position: relative;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  color: var(--color-ink-soft);
+  transition: transform 200ms ease;
+}
+
+.faq-marker::before,
+.faq-marker::after {
+  content: "";
+  position: absolute;
+  background-color: currentColor;
+}
+
+.faq-marker::before {
+  left: 0;
+  top: calc(50% - 0.75px);
+  width: 12px;
+  height: 1.5px;
+}
+
+.faq-marker::after {
+  top: 0;
+  left: calc(50% - 0.75px);
+  width: 1.5px;
+  height: 12px;
+}
+
+details[open] > .faq-summary .faq-marker {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-marker {
+    transition: none;
+  }
+}
