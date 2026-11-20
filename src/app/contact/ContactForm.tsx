@@ -69,6 +69,13 @@ export default function ContactForm() {
     const el = fieldFrom(e.target);
     if (!el) return;
     const field = el.name as ContactField;
+    if (field === "name" && el instanceof HTMLInputElement && /\d/.test(el.value)) {
+      // Drop digits as they're typed or pasted, keeping the caret in place.
+      const caret = el.selectionStart ?? el.value.length;
+      const removedBefore = (el.value.slice(0, caret).match(/\d/g) ?? []).length;
+      el.value = el.value.replace(/\d/g, "");
+      el.setSelectionRange(caret - removedBefore, caret - removedBefore);
+    }
     if (field === "message") setMessageLength(el.value.length);
     if (errorFor(field)) check(field, el.value);
   }

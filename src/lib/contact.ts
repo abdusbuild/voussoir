@@ -36,6 +36,9 @@ export const EMPTY_VALUES: ContactValues = {
 // patterns reject real addresses; the reply is the real test.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_CHARS_RE = /^\+?[\d\s\-().]+$/;
+// Letters in any script, plus the spaces, apostrophes, hyphens and dots real
+// names use (O'Brien, Jean-Luc, A. Khan). No digits or other symbols.
+const NAME_RE = /^[\p{L}\p{M}][\p{L}\p{M}\s'’.\-]*$/u;
 
 export function validateField(field: ContactField, raw: string): string | undefined {
   const value = raw.trim();
@@ -45,6 +48,8 @@ export function validateField(field: ContactField, raw: string): string | undefi
       if (value.length < LIMITS.name.min) return "Please enter your full name.";
       if (value.length > LIMITS.name.max)
         return `Please keep your name under ${LIMITS.name.max} characters.`;
+      if (!NAME_RE.test(value))
+        return "Please use letters only — no numbers or symbols.";
       return;
     case "email":
       if (!value) return "Please enter your email so we can reply.";
